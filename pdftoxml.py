@@ -1,7 +1,5 @@
 import os
 import sys
-#import timing
-import pprint
 import logging
 import codecs
 
@@ -18,7 +16,7 @@ arg_path = sys.argv[1]
 logging.basicConfig(filename='villur.csv',level=logging.ERROR)
 logging.error(" | Error Type | Path | File")
 
-#count files
+
 count = 0
 no_metadata_count = 0
 file_count = 0
@@ -94,7 +92,6 @@ for subdir, dirs, files in os.walk(arg_path):
 					dirname = subdir.split(os.path.sep)[-1]
 					pdfdict = xmp_to_dict(metadata)
 					dict1 = pdfdoc.info[0]
-					# if checkKeywords(dict1):
 					xkeywords = None
 					xdesc = None
 					xcreator = None
@@ -133,9 +130,6 @@ for subdir, dirs, files in os.walk(arg_path):
 
 					count += 1
 					print(count, end='\r')
-					# else:
-					# 	no_metadata_count += 1
-					# 	logging.error(" | {} | {}\\ | {}".format('No Keywords',  subdir, file))
 				else:
 					no_metadata_count += 1
 					logging.error(" | {} | {}\\ | {}".format('No Metadata', subdir, file))

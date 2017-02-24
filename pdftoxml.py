@@ -85,57 +85,57 @@ for subdir, dirs, files in os.walk(arg_path):
 		if filepath.endswith(".pdf"):
 			pdffilecount += 1
 		try:
-				pdfdoc = parsePDFfile(filepath)
-				if checkMetadata(pdfdoc):
-					metadata = resolve1(pdfdoc.catalog['Metadata']).get_data()
-					dirname = subdir.split(os.path.sep)[-1]
-					pdfdict = xmp_to_dict(metadata)
-					dict1 = pdfdoc.info[0]
-					xkeywords = None
-					xdesc = None
-					xcreator = None
-					xtitle = None
-					xfolder = None
-					try:
-						xkeywords = str(pdfdict['pdf']['Keywords']).replace('\r\n', ', ')
-					except:
-						xkeywords = ''
-						pass
-					try:
-						xdesc = pdfdict['dc']['description']['x-default']
-					except:
-						xdesc = ''	
-						pass
-					try:
-						xcreator = pdfdict['dc']['creator'][0]
-					except:
-						xcreator = ''	
-						pass
-					try:
-						xtitle = pdfdict['dc']['title']['x-default']
-					except:
-						xtitle = ''	
-						pass
-					try:
-						xfolder = dirname
-					except:
-						xfolder = ''	
-						pass
-						
-					xmlstr = makeXML(xkeywords, xdesc, xcreator, xtitle, xfolder)
-					filename = file.strip('.pdf')
-					with codecs.open(subdir + os.sep + filename + ".xml", "w", "utf-8") as f:
-						f.write(xmlstr)
+			pdfdoc = parsePDFfile(filepath)
+			if checkMetadata(pdfdoc):
+				metadata = resolve1(pdfdoc.catalog['Metadata']).get_data()
+				dirname = subdir.split(os.path.sep)[-1]
+				pdfdict = xmp_to_dict(metadata)
+				dict1 = pdfdoc.info[0]
+				xkeywords = None
+				xdesc = None
+				xcreator = None
+				xtitle = None
+				xfolder = None
+				try:
+					xkeywords = str(pdfdict['pdf']['Keywords']).replace('\r\n', ', ')
+				except:
+					xkeywords = ''
+					pass
+				try:
+					xdesc = pdfdict['dc']['description']['x-default']
+				except:
+					xdesc = ''	
+					pass
+				try:
+					xcreator = pdfdict['dc']['creator'][0]
+				except:
+					xcreator = ''	
+					pass
+				try:
+					xtitle = pdfdict['dc']['title']['x-default']
+				except:
+					xtitle = ''	
+					pass
+				try:
+					xfolder = dirname
+				except:
+					xfolder = ''	
+					pass
+					
+				xmlstr = makeXML(xkeywords, xdesc, xcreator, xtitle, xfolder)
+				filename = file.strip('.pdf')
+				with codecs.open(subdir + os.sep + filename + ".xml", "w", "utf-8") as f:
+					f.write(xmlstr)
 
-					count += 1
-					print(count, end='\r')
-				else:
-					no_metadata_count += 1
-					logging.error(" | {} | {}\\ | {}".format('No Metadata', subdir, file))
-			except Exception as e:
-				corrupted_files += 1
-				logging.error(" | {} | {}\\ | {}".format(e, subdir, file))
-				continue		
+				count += 1
+				print(count, end='\r')
+			else:
+				no_metadata_count += 1
+				logging.error(" | {} | {}\\ | {}".format('No Metadata', subdir, file))
+		except Exception as e:
+			corrupted_files += 1
+			logging.error(" | {} | {}\\ | {}".format(e, subdir, file))
+			continue		
 
 print('    Total files parsed to XML = ', count)
 print(' Total files with no metadata = ', no_metadata_count)

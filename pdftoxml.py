@@ -10,13 +10,12 @@ from dicttoxml import dicttoxml
 from xml.dom.minidom import parseString
 from xml.dom import minidom
 
-# argument for path
 arg_path = sys.argv[1]
-# Start logging
+
 logging.basicConfig(filename='villur.csv',level=logging.ERROR)
 logging.error(" | Error Type | Path | File")
 
-
+# counters
 count = 0
 no_metadata_count = 0
 file_count = 0
@@ -138,14 +137,8 @@ for subdir, dirs, files in os.walk(arg_path):
 				logging.error(" | {} | {}\\ | {}".format(e, subdir, file))
 				continue		
 
-#print('-' * 31)
 print('    Total files parsed to XML = ', count)
-#print('-' * 31)
 print(' Total files with no metadata = ', no_metadata_count)
-#print('-' * 31)
 print('                  Total files = ', file_count)
-#print('-' * 31)
 print('              Total PDF files = ', pdffilecount)
-#print('-' * 31)
 print('        Total corrupted files = ', corrupted_files)
-#print('-' * 31)
